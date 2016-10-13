@@ -2,7 +2,7 @@
 
 DeclareATest is a fluent testing API for python. It is written for python3 and currently under development.
 
-### [Intent](/docs/intent.md) - [Resources](/docs/rsr.md)
+### [Intent](/doc/intent.md) - [Resources](/doc/rsr.md)
 
 ### Features
 - [X] Customizeable Subject Construction
