@@ -16,46 +16,46 @@ class VersionOneUnitTests(unittest.TestCase):
 
     def test_SetFlagTrue(self):
         test = DeclareATest().ArrangedBy(self.commonArrange)\
-                .ThatExpects(lambda s: s.GetFlag() is True)\
-                .When(lambda c: c["Subject"].SetFlagTrue())
+                .ThatExpects(lambda s: s.GetFlag() is True,"Subject Falg is false.")\
+                .When(lambda c: c[TestComponents.Subject].SetFlagTrue())
         test.Run()
 
     def test_SetFlagFalse(self):
         test = DeclareATest().ArrangedBy(self.commonArrange)\
-                .ThatExpects(lambda s: s.GetFlag is False)\
-                .When(lambda c: c["Subject"].SetFlagFalse())
+                .ThatExpects(lambda s: s.GetFlag is False,"Subject flag is true")\
+                .When(lambda c: c[TestComponents.Subject].SetFlagFalse())
         test.Run()
 
     def test_SetNameToJohn(self):
         test = DeclareATest().ArrangedBy(self.commonArrange)\
-                .ThatExpects(lambda s: s.GetName() == 'John')\
-                .When(lambda c: c["Subject"].SetName('John'))
+                .ThatExpects(lambda s: s.GetName() == 'John',"Subject Name was not john")\
+                .When(lambda c: c[TestComponents.Subject].SetName('John'))
         test.Run()
 
-    def test_MultiPass(self):
+    def test_MultiPass(self): #*wink* hehe multi-pass
         def action(context):
-            context["Subject"].SetFlagTrue()
-            context["Subject"].SetName('John')
+            context[TestComponents.Subject].SetFlagTrue()
+            context[TestComponents.Subject].SetName('John')
         test = DeclareAtest().ArrangedBy(self.commonArrange)\
-                .ThatExpects(lambda s: s.GetFlag() is True)\
-                .ThatExpects(lambda s: s.GetName() == 'John')\
+                .ThatExpects(lambda s: s.GetFlag() is True,"Subject flag was not true")\
+                .ThatExpects(lambda s: s.GetName() == 'John',"Subject name was not john")\
                 .When(action)
         test.Run()
 
     @unittest.expectedFailure
     def test_MultiFail(self):
         test = DeclareATest().ArrangedBy(self.commonArrange)\
-                .ThatExpects(lambda s: s.GetFlag() is True)\
-                .ThatExpects(lambda s: s.GetName() == 'John')\
+                .ThatExpects(lambda s: s.GetFlag() is True,"Subject flag was not true")\
+                .ThatExpects(lambda s: s.GetName() == 'John',"Subject name was not john")\
                 .When(lambda c: """Do Nothing""" )
         test.Run()
 
     @unittest.expectedFailure
     def test_Mixed(self):
         test = DeclareATest().ArrangedBy(self.commonArrange)\
-                .ThatExpects(lambda s: s.GetFlag() is True)\
-                .ThatExpects(lambda s: s.GetName() == 'John')\
-                .When(lambda c: c["Subject"].SetFlagTrue())
+                .ThatExpects(lambda s: s.GetFlag() is True,"Subject flag awas not true")\
+                .ThatExpects(lambda s: s.GetName() == 'John',"Subject name was not john")\
+                .When(lambda c: c[TestComponents.Subject].SetFlagTrue())
         test.Run()
 
 if _name_ == '_main_':

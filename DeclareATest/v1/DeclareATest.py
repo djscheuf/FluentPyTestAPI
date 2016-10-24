@@ -17,6 +17,7 @@ Author: DJS
 Date: 11OCT2016
 """
 from .core import fluent.fluent as fluent # should import fluent method decorator
+from .core import ComponentEnum.TestComponents as TestComponents
 
 class DeclareATest():
     def __init__(self):
@@ -29,19 +30,20 @@ class DeclareATest():
     @fluent
     def _For(self,subject):
         """Takes a pre-initialized subject to test against"""
-        self._context["Subject"] = subject
+        self._context[TestComponents.Subject] = subject
 
     @fluent
     def ArrangedBy(self, arrangeMethod):
-        """Takes a Method which returns an initialized subject, executed at Run()"""
+        """Takes a Method taht takes a context for complex initialization and checking, which returns an initialized subject, executed at Run()"""
         self._arrange = arrangeMethod
-        self._context["Subject"] = None
+        self._context[TestComponents.Subject] = None
 
     @fluent
-    def ThatExpects(self,expectation):
+    def ThatExpects(self,expectation, msgOnError="No Message Provided..."):
         """Takes a method that takes subject and that returns boolean for met or unmet expecation.
             Each is evaluated at Run(). Errors are collected and reported when all expectations evaluated."""
         self._expectations.append(expectation)
+        self._messages.append(message)
 
     @fluent
     def When(self,actionMethod):
@@ -56,24 +58,20 @@ class DeclareATest():
 
         try:
             #Arrange
-            if self._context["Subject"] is None:
-                self._context["Subject"] = self._arrange()
-                print("Arranging subject")
-
-
+            if self._context[TestComponents.Subject] is None:
+                self._context[TestComponents.Subject] = self._arrange(self._context)
 
             #Act
-            print("Arranged: {}".format(self._context["Subject"]))
             self._action(self._context)
-            print("Acted: {}".format(self._context["Subject"]))
 
             #Asssert
-            for expectation in self._expectations:
+            cnt = len(self._expectations) # Number of expecations to verify, same as message count.
+            for i in range(cnt):
+                expectation = self._expectations[i]
                 try:
-                    flag = expectation(self._context["Subject"])
-                    print("Flag: {}".format(flag))
+                    flag = expectation(self._context[TestComponents.Subject])
                     if not flag:
-                        errors.append("Expecations not met: {0}".format(expectation))
+                        errors.append("Expecations not met: {0}".format(self._messages[i]))
                 except Exception as e:
                     errors.append("Exception caught: {0}".format(e))
         except Exception as e:

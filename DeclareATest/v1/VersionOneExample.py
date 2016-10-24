@@ -11,27 +11,14 @@ Date: 11OCT2016
 import DeclareATest
 from core.TestSubject import TestSubject
 
-def InitDemo():
-
-    def action(context):
-    	print("	Input subject: {}".format(context["Subject"]))
-    	context["Subject"]=1
-    	print("	Acted subject: {}".format(context["Subject"]))
-
-    subject=125
-    test = DeclareATest()._For(subject).ThatExpects(lambda s: s==1).When(action)
-    #test = test.ThatExpects(lambda s: s==1)
-    #test = test.When(action)
-    test.Run()
-
 def TestSubjectDemo():
 
     def action(context):
         print(" Setting Flag to True")
-        context["Subject"].SetFlagTrue()
+        context[TestComponents.Subject].SetFlagTrue()
 
     test = DeclareATest().ArrangedBy(lambda : TestSubject(False))\
-            .ThatExpects(lambda s: s.GetFlag()).When(action)
+            .ThatExpects(lambda s: s.GetFlag(),"Subject Flag is false.").When(action)
     test.Run()
     print("")
 
@@ -41,7 +28,7 @@ def TestSubjectDemo():
 
 
     test2 = DeclareATest().ArrangedBy(lambda : TestSubject(True))\
-    			.ThatExpects(lambda s: s.GetName() == "John")\
+    			.ThatExpects(lambda s: s.GetName() == "John","Subject name is not John.")\
     			.When(action2)
     test2.Run()
     print("")
@@ -54,8 +41,8 @@ def TestSubjectDemo():
 
 
     test3 = DeclareATest().ArrangedBy(lambda : TestSubject(False))\
-    			.ThatExpects(lambda s: s.GetName() == "John")\
-    			.ThatExpects(lambda s: s.GetFlag())\
+    			.ThatExpects(lambda s: s.GetName() == "John","Subject name is not John.")\
+    			.ThatExpects(lambda s: s.GetFlag(),"Subject Flag is false.")\
     			.When(action3)
     test3.Run()
     print("")
@@ -68,8 +55,8 @@ def TestSubjectDemo():
 
 
     test4 = DeclareATest().ArrangedBy(lambda : TestSubject(False))\
-    			.ThatExpects(lambda s: s.GetName() == "John")\
-    			.ThatExpects(lambda s: s.GetFlag())\
+    			.ThatExpects(lambda s: s.GetName() == "John","Subject name is not John.")\
+    			.ThatExpects(lambda s: s.GetFlag(),"Subject Flag is false.")\
     			.When(action4)
     try:
         test4.Run()
