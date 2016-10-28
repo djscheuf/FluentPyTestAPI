@@ -25,6 +25,7 @@ class DeclareATest():
         self._context = {} #Need to use Context to wrapp and allow mutation of Vars
             # Can extend this to later use. May refactor Arrange to take and mutate Context.
         self._expectations = []
+        self._messages = []
         self._action = None
 
     @fluent
@@ -78,5 +79,4 @@ class DeclareATest():
             errors.append("Exception caught: {0}".format(e))
 
         if len(errors) != 0:
-            #msg = '\n'.join('{},\n'.format(errors))
-            raise AssertionError("Test did not succeed. Errors {0}".format(errors))
+            raise AssertionError("Test did not pass. Errors {0}".format(errors))

@@ -9,7 +9,7 @@ Date: 11OCT2016
 """
 
 import DeclareATest
-from core.TestSubject import TestSubject
+from .core.TestSubject import TestSubject
 
 def TestSubjectDemo():
 
