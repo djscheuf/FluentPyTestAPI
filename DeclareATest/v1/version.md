@@ -1,7 +1,7 @@
 #Version 1 Version History/Doc
 
 ##Current Version: 1.1
-Version 1.1 implemented several changes to the API functions, as well as changed the expecation of user functions.
+Version 1.1 implemented several changes to the API functions, as well as changed the expectation of user functions.
 Summary:
 - User should now address Test Subject by context[TestComponents.Subject], rather than by string
 - User's should now provide an error message to .ThatExpects()

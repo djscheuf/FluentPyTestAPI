@@ -7,12 +7,12 @@ def commonArrange():
       TestSubject(False)
 
 test = DeclareATest().ArrangedBy(self.commonArrange)\
-            .ThatExpects(lambda s: """Lambda to Check Expecation, returns true if passed.""","Error Massage for when check fails.")\
+            .ThatExpects(lambda s: """Lambda to Check Expectation, returns true if passed.""","Error Massage for when check fails.")\
             .When(lambda context: """Act on context[TestComponents.Subject]""")
     test.Run()
 ```
 
-You can do multiple actions in your action function, and you can setup multiple expecations:
+You can do multiple actions in your action function, and you can setup multiple expectations:
 ```python
 def action(context):
         context[TestComponents.Subject].SetFlagTrue()
